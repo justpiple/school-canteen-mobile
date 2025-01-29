@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:lottie/lottie.dart';
 import 'package:school_canteen/screens/layouts/student_layout.dart';
 import '../../providers/auth_provider.dart';
 import '../login_screen.dart';
@@ -85,6 +84,8 @@ class _AuthWrapperState extends State<AuthWrapper>
 
   @override
   Widget build(BuildContext context) {
+    final primaryColor = Theme.of(context).primaryColor;
+
     return Consumer<AuthProvider>(
       builder: (context, auth, child) {
         if (_isLoading) {
@@ -95,7 +96,7 @@ class _AuthWrapperState extends State<AuthWrapper>
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
                   colors: [
-                    Theme.of(context).primaryColor.withValues(alpha: 0.8),
+                    primaryColor.withValues(alpha: .05),
                     Colors.white,
                   ],
                 ),
@@ -107,15 +108,25 @@ class _AuthWrapperState extends State<AuthWrapper>
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Container(
+                        padding: const EdgeInsets.all(16),
                         decoration: BoxDecoration(
+                          color: Colors.white,
                           borderRadius: BorderRadius.circular(20),
+                          boxShadow: [
+                            BoxShadow(
+                              color: primaryColor.withValues(alpha: .1),
+                              blurRadius: 12,
+                              offset: const Offset(0, 4),
+                            ),
+                          ],
                         ),
                         child: ClipRRect(
-                          borderRadius: BorderRadius.circular(20),
+                          borderRadius: BorderRadius.circular(16),
                           child: Image.asset(
                             'assets/images/logo.png',
-                            width: 140,
-                            height: 140,
+                            width: 120,
+                            height: 120,
+                            color: primaryColor,
                           ),
                         ),
                       ),
@@ -126,7 +137,7 @@ class _AuthWrapperState extends State<AuthWrapper>
                             .textTheme
                             .headlineMedium
                             ?.copyWith(
-                              color: Theme.of(context).primaryColor,
+                              color: primaryColor,
                               fontWeight: FontWeight.bold,
                               letterSpacing: 1.2,
                             ),
@@ -139,28 +150,16 @@ class _AuthWrapperState extends State<AuthWrapper>
                               letterSpacing: 0.5,
                             ),
                       ),
-                      const SizedBox(height: 48),
-                      if (_isFirstLoad)
-                        SizedBox(
-                          width: 60,
-                          height: 60,
-                          child: Lottie.asset(
-                            'assets/animations/loading.json',
-                            controller: _loadingController,
-                            fit: BoxFit.cover,
-                          ),
-                        )
-                      else
-                        SizedBox(
-                          width: 24,
-                          height: 24,
-                          child: CircularProgressIndicator(
-                            strokeWidth: 2.5,
-                            valueColor: AlwaysStoppedAnimation<Color>(
-                              Theme.of(context).primaryColor,
-                            ),
-                          ),
+                      const SizedBox(height: 40),
+                      SizedBox(
+                        width: 50,
+                        height: 50,
+                        child: CircularProgressIndicator(
+                          valueColor:
+                              AlwaysStoppedAnimation<Color>(primaryColor),
+                          strokeWidth: 3,
                         ),
+                      ),
                     ],
                   ),
                 ),

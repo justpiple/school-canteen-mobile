@@ -61,11 +61,11 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.green,
-        primaryColor: Colors.green[800],
+        primaryColor: Colors.green[500],
         colorScheme: ColorScheme.fromSeed(
           seedColor: Colors.green,
-          primary: Colors.green[800]!,
-          secondary: Colors.green[600]!,
+          primary: Colors.green[600]!,
+          secondary: Colors.green[400]!,
         ),
         inputDecorationTheme: InputDecorationTheme(
           filled: true,
