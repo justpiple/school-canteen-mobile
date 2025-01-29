@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:school_canteen/models/login_response.dart';
+import 'package:school_canteen/screens/layouts/admin_stand_layout.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:school_canteen/screens/layouts/student_layout.dart';
 import '../../providers/auth_provider.dart';
@@ -123,7 +125,7 @@ class _AuthWrapperState extends State<AuthWrapper>
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(16),
                           child: Image.asset(
-                            'assets/images/logo.png',
+                            'assets/icons/icon-large_foreground.png',
                             width: 120,
                             height: 120,
                             color: primaryColor,
@@ -169,7 +171,11 @@ class _AuthWrapperState extends State<AuthWrapper>
         }
 
         if (auth.isAuthenticated) {
-          return const StudentLayout();
+          if (auth.role == Role.STUDENT) {
+            return const StudentLayout();
+          } else {
+            return AdminStandLayout();
+          }
         }
         return const LoginScreen();
       },

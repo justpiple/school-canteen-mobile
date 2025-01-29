@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:school_canteen/models/stand_stats.dart';
 import '../models/api_response.dart';
 import '../models/menu.dart';
 import '../models/stand.dart';
@@ -8,12 +9,50 @@ class StandService {
 
   ApiResponse<List<Stand>>? _standsCache;
   DateTime? _standsCacheTime;
+  ApiResponse<StandStats>? _statsCache;
+  DateTime? _statsCacheTime;
   final Duration _cacheDuration = const Duration(minutes: 5);
 
   final Map<int, ApiResponse<List<Menu>>> _menuCache = {};
   final Map<int, DateTime> _menuCacheTime = {};
 
   StandService(this._dio);
+
+  Future<ApiResponse<StandStats>> getStandStats(
+      {bool forceRefresh = false}) async {
+    if (!forceRefresh &&
+        _statsCache != null &&
+        _statsCacheTime != null &&
+        DateTime.now().difference(_statsCacheTime!) < _cacheDuration) {
+      return _statsCache!;
+    }
+
+    try {
+      final response = await _dio.get('/stands/stats');
+      final apiResponse = ApiResponse<StandStats>.fromJson(
+        response.data,
+        (json) => StandStats.fromJson(json as Map<String, dynamic>),
+      );
+
+      _statsCache = apiResponse;
+      _statsCacheTime = DateTime.now();
+
+      return apiResponse;
+    } on DioError catch (e) {
+      if (_statsCache != null) {
+        return _statsCache!;
+      }
+
+      return ApiResponse.fromJson(
+        {
+          'status': 'error',
+          'message': e.response?.data['message'] ?? 'An error occurred',
+          'statusCode': e.response?.statusCode ?? 500,
+        },
+        null,
+      );
+    }
+  }
 
   Future<ApiResponse<List<Stand>>> getStands(
       {bool forceRefresh = false}) async {
