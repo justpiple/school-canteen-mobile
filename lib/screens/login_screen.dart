@@ -17,6 +17,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
   bool _isPasswordVisible = false;
   bool _isLoading = false;
+  BuildContext? dialogContext;
 
   Future<void> _login() async {
     if (!_formKey.currentState!.validate()) return;
@@ -32,6 +33,12 @@ class _LoginScreenState extends State<LoginScreen> {
 
       if (authProvider.loginResponse?.statusCode == 200) {
         _showSuccessAnimation();
+
+        Future.delayed(const Duration(seconds: 1), () {
+          if (dialogContext != null && mounted) {
+            Navigator.of(dialogContext!).pop();
+          }
+        });
       } else {
         _showError(authProvider.loginResponse?.message ?? 'Login failed.');
       }
@@ -45,41 +52,37 @@ class _LoginScreenState extends State<LoginScreen> {
 
   void _showSuccessAnimation() {
     showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (context) => Center(
-        child: Container(
-          padding: const EdgeInsets.all(20),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(20),
-          ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const Icon(
-                Icons.check_circle,
-                color: Colors.green,
-                size: 64,
-              ),
-              const SizedBox(height: 16),
-              const Text(
-                'Login Successful!',
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
+        context: context,
+        barrierDismissible: true,
+        builder: (BuildContext context) {
+          dialogContext = context;
+          return Center(
+              child: Container(
+            padding: const EdgeInsets.all(20),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(20),
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Icon(
+                  Icons.check_circle,
+                  color: Colors.green,
+                  size: 64,
                 ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-
-    Future.delayed(const Duration(seconds: 2), () {
-      Navigator.of(context).pop();
-      // Navigate to home screen or handle next steps
-    });
+                const SizedBox(height: 16),
+                const Text(
+                  'Login Successful!',
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
+            ),
+          ));
+        });
   }
 
   void _showError(String message) {
@@ -260,7 +263,6 @@ class _LoginScreenState extends State<LoginScreen> {
             Colors.green[800]!,
           ],
         ),
-        boxShadow: [], // Menghapus shadow
       ),
       child: ElevatedButton(
         onPressed: _isLoading ? null : _login,

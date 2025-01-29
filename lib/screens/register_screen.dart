@@ -89,7 +89,7 @@ class RegisterScreenState extends State<RegisterScreen> {
       if (!mounted) return;
 
       Navigator.of(context)
-        ..pop() // Pop the dialog
+        ..pop()
         ..pushReplacement(
           MaterialPageRoute(
             builder: (context) => const LoginScreen(),

@@ -67,7 +67,6 @@ class MyApp extends StatelessWidget {
           primary: Colors.green[800]!,
           secondary: Colors.green[600]!,
         ),
-
         inputDecorationTheme: InputDecorationTheme(
           filled: true,
           fillColor: Colors.grey[100],
@@ -90,7 +89,6 @@ class MyApp extends StatelessWidget {
           contentPadding:
               const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
         ),
-
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(
             foregroundColor: Colors.white,
@@ -102,15 +100,12 @@ class MyApp extends StatelessWidget {
             elevation: 0,
           ),
         ),
-
-        // Text Button
         textButtonTheme: TextButtonThemeData(
           style: TextButton.styleFrom(
             foregroundColor: Colors.green[800],
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
           ),
         ),
-
         fontFamily: 'Roboto',
         textTheme: TextTheme(
           headlineMedium: TextStyle(

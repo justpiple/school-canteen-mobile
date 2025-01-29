@@ -15,7 +15,7 @@ class RegisterRequest {
     return {
       'username': username,
       'password': password,
-      'role': role,
+      'role': role.name,
     };
   }
 }
