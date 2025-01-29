@@ -2,15 +2,14 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:lucide_icons/lucide_icons.dart';
 import 'package:provider/provider.dart';
-import 'package:school_canteen/widgets/common/section_title.dart';
 
 import '../../models/profile/profile_state.dart';
 import '../../models/update_student.dart';
 import '../../models/update_user.dart';
 import '../../providers/auth_provider.dart';
 import '../../providers/profile_provider.dart';
-import '../../widgets/profile/button.dart';
 import '../../widgets/profile/student_profile_section.dart';
 import '../../widgets/profile/user_info_section.dart';
 
@@ -92,7 +91,7 @@ class _ProfilePageState extends State<ProfilePage> {
       if (!mounted) return;
 
       _profileState.setLoading(false);
-      _profileState.toggleEdit();
+      _toggleEdit();
       _controllers.password.clear();
 
       ScaffoldMessenger.of(context).showSnackBar(
@@ -156,7 +155,7 @@ class _ProfilePageState extends State<ProfilePage> {
     try {
       final profileProvider = context.read<ProfileProvider>();
 
-      bool success;
+      String success;
       if (_profileState.exists) {
         final dto = UpdateStudentDto(
           name: _controllers.name.text,
@@ -175,7 +174,7 @@ class _ProfilePageState extends State<ProfilePage> {
           phone: _controllers.phone.text,
           photoFile: _profileState.imageFile,
         );
-        if (success) {
+        if (success.indexOf("successful") > 0) {
           _profileState.exists = true;
         }
       }
@@ -183,15 +182,15 @@ class _ProfilePageState extends State<ProfilePage> {
       if (!mounted) return;
 
       _profileState.setLoading(false);
-      if (success) {
+      if (success.indexOf("successful") > 0) {
         profileProvider.clearCache();
-        _profileState.toggleEdit();
+        _toggleEdit();
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Profile saved successfully')),
         );
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Failed to save profile')),
+          SnackBar(content: Text(success)),
         );
       }
     } catch (e) {
@@ -226,13 +225,55 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: SectionTitle(title: 'Profile'),
-        actions: [
-          EditButton(
-            isEditing: _profileState.isEditing,
-            onPressed: _toggleEdit,
+        title: const Text(
+          'Profile',
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
           ),
-          LogoutButton(onPressed: _confirmLogout),
+        ),
+        actions: [
+          Container(
+            margin: const EdgeInsets.only(right: 8),
+            decoration: BoxDecoration(
+              color: Colors.white.withValues(alpha: .2),
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: IconButton(
+              icon: Icon(
+                _profileState.isEditing ? LucideIcons.x : LucideIcons.edit,
+                color: Colors.black,
+                size: 20,
+              ),
+              tooltip: _profileState.isEditing ? 'Cancel Edit' : 'Edit Profile',
+              onPressed: _toggleEdit,
+              style: IconButton.styleFrom(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
+              ),
+            ),
+          ),
+          Container(
+            margin: const EdgeInsets.only(right: 8),
+            decoration: BoxDecoration(
+              color: Colors.red.withValues(alpha: .8),
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: IconButton(
+              icon: const Icon(
+                LucideIcons.logOut,
+                color: Colors.white,
+                size: 20,
+              ),
+              tooltip: 'Logout',
+              onPressed: _confirmLogout,
+              style: IconButton.styleFrom(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
+              ),
+            ),
+          ),
         ],
       ),
       body: Consumer2<AuthProvider, ProfileProvider>(
@@ -240,36 +281,34 @@ class _ProfilePageState extends State<ProfilePage> {
           final profileData = _getProfileData();
 
           return RefreshIndicator(
-              onRefresh: _refreshProfile,
-              child: SingleChildScrollView(
-                physics: const AlwaysScrollableScrollPhysics(),
-                padding: const EdgeInsets.all(16),
-                child: Form(
-                  key: _formKey,
-                  child: Column(
-                    children: [
-                      UserInfoSection(
-                        usernameController: _controllers.username,
-                        passwordController: _controllers.password,
-                        isEditing: _profileState.isEditing,
-                        isLoading: _profileState.isLoading,
-                        onUpdate: _updateUserInfo,
-                      ),
-                      const SizedBox(height: 24),
-                      const Divider(),
-                      const SizedBox(height: 24),
-                      StudentProfileSection(
-                        data: profileData,
-                        isEditing: _profileState.isEditing,
-                        onSave: _saveProfile,
-                        onImagePick: _pickImage,
-                      ),
-                      SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.1),
-                    ],
-                  ),
+            onRefresh: _refreshProfile,
+            child: SingleChildScrollView(
+              physics: const AlwaysScrollableScrollPhysics(),
+              padding: const EdgeInsets.all(16),
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  children: [
+                    UserInfoSection(
+                      usernameController: _controllers.username,
+                      passwordController: _controllers.password,
+                      isEditing: _profileState.isEditing,
+                      isLoading: _profileState.isLoading,
+                      onUpdate: _updateUserInfo,
+                    ),
+                    const SizedBox(height: 24),
+                    StudentProfileSection(
+                      data: profileData,
+                      isEditing: _profileState.isEditing,
+                      onSave: _saveProfile,
+                      onImagePick: _pickImage,
+                    ),
+                    SizedBox(height: MediaQuery.of(context).size.height * 0.1),
+                  ],
                 ),
-              ));
+              ),
+            ),
+          );
         },
       ),
     );

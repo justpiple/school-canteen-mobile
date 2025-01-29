@@ -511,9 +511,7 @@ class _OrderHistoryPageState extends State<OrderHistoryPage> {
           'Order History',
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
-        centerTitle: true,
-        elevation: 0,
-        scrolledUnderElevation: 0,
+        centerTitle: false,
       ),
       body: Column(
         children: [

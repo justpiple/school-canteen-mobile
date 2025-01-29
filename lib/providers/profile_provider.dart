@@ -16,7 +16,7 @@ class ProfileProvider extends ChangeNotifier {
 
   ProfileProvider(this._studentService);
 
-  Future<bool> createStudentProfile({
+  Future<String> createStudentProfile({
     required String name,
     required String address,
     required String phone,
@@ -35,10 +35,10 @@ class ProfileProvider extends ChangeNotifier {
       studentProfile = response;
       notifyListeners();
     }
-    return response.isSuccess;
+    return response.message;
   }
 
-  Future<bool> updateStudentProfile(UpdateStudentDto dto,
+  Future<String> updateStudentProfile(UpdateStudentDto dto,
       {File? photoFile}) async {
     final response =
         await _studentService.updateProfile(dto, photoFile: photoFile);
@@ -46,7 +46,7 @@ class ProfileProvider extends ChangeNotifier {
       studentProfile = response;
       notifyListeners();
     }
-    return response.isSuccess;
+    return response.message;
   }
 
   Future<void> loadProfile({bool forceRefresh = false}) async {
