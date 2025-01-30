@@ -19,7 +19,10 @@ class _AuthWrapperState extends State<AuthWrapper>
   bool _isLoading = true;
   late AnimationController _loadingController;
   late AnimationController _fadeController;
+  late AnimationController _pulseController;
   late Animation<double> _fadeAnimation;
+  late Animation<double> _scaleAnimation;
+  late Animation<double> _pulseAnimation;
   final String _lastVisitKey = 'last_visit_timestamp';
   final Duration _cacheValidity = const Duration(hours: 1);
   bool _isFirstLoad = true;
@@ -38,12 +41,34 @@ class _AuthWrapperState extends State<AuthWrapper>
       duration: const Duration(milliseconds: 800),
     );
 
+    _pulseController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 1500),
+    )..repeat(reverse: true);
+
     _fadeAnimation = CurvedAnimation(
       parent: _fadeController,
       curve: Curves.easeIn,
     );
 
+    _scaleAnimation = Tween<double>(
+      begin: 0.8,
+      end: 1.0,
+    ).animate(CurvedAnimation(
+      parent: _loadingController,
+      curve: Curves.easeOutBack,
+    ));
+
+    _pulseAnimation = Tween<double>(
+      begin: 1.0,
+      end: 1.05,
+    ).animate(CurvedAnimation(
+      parent: _pulseController,
+      curve: Curves.easeInOut,
+    ));
+
     _fadeController.forward();
+    _loadingController.forward();
     _checkAuthWithCache();
   }
 
@@ -58,7 +83,6 @@ class _AuthWrapperState extends State<AuthWrapper>
     }
 
     if (_isFirstLoad) {
-      _loadingController.forward();
       await _checkAuth();
       await prefs.setInt(_lastVisitKey, now);
     } else {
@@ -81,6 +105,7 @@ class _AuthWrapperState extends State<AuthWrapper>
   void dispose() {
     _loadingController.dispose();
     _fadeController.dispose();
+    _pulseController.dispose();
     super.dispose();
   }
 
@@ -109,57 +134,77 @@ class _AuthWrapperState extends State<AuthWrapper>
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Container(
-                        padding: const EdgeInsets.all(16),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(20),
-                          boxShadow: [
-                            BoxShadow(
-                              color: primaryColor.withValues(alpha: .1),
-                              blurRadius: 12,
-                              offset: const Offset(0, 4),
-                            ),
-                          ],
-                        ),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(16),
-                          child: Image.asset(
-                            'assets/icons/icon-large_foreground.png',
-                            width: 120,
-                            height: 120,
-                            color: primaryColor,
-                          ),
+                      ScaleTransition(
+                        scale: _scaleAnimation,
+                        child: AnimatedBuilder(
+                          animation: _pulseAnimation,
+                          builder: (context, child) {
+                            return Transform.scale(
+                              scale: _pulseAnimation.value,
+                              child: Container(
+                                padding: const EdgeInsets.all(16),
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(20),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: primaryColor.withValues(alpha: .1),
+                                      blurRadius: 12,
+                                      offset: const Offset(0, 4),
+                                    ),
+                                    BoxShadow(
+                                      color:
+                                          primaryColor.withValues(alpha: .05),
+                                      blurRadius: 24,
+                                      offset: const Offset(0, 8),
+                                    ),
+                                  ],
+                                ),
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(16),
+                                  child: Image.asset(
+                                    'assets/icons/icon-large_foreground.png',
+                                    width: 120,
+                                    height: 120,
+                                    color: primaryColor,
+                                  ),
+                                ),
+                              ),
+                            );
+                          },
                         ),
                       ),
                       const SizedBox(height: 32),
-                      Text(
-                        'School Canteen',
-                        style: Theme.of(context)
-                            .textTheme
-                            .headlineMedium
-                            ?.copyWith(
-                              color: primaryColor,
-                              fontWeight: FontWeight.bold,
-                              letterSpacing: 1.2,
-                            ),
+                      ScaleTransition(
+                        scale: _scaleAnimation,
+                        child: Text(
+                          'School Canteen',
+                          style: Theme.of(context)
+                              .textTheme
+                              .headlineMedium
+                              ?.copyWith(
+                                color: primaryColor,
+                                fontWeight: FontWeight.bold,
+                                letterSpacing: 1.2,
+                              ),
+                        ),
                       ),
                       const SizedBox(height: 12),
-                      Text(
-                        'Order Your Food Easily',
-                        style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                              color: Colors.grey[600],
-                              letterSpacing: 0.5,
-                            ),
-                      ),
-                      const SizedBox(height: 40),
-                      SizedBox(
-                        width: 50,
-                        height: 50,
-                        child: CircularProgressIndicator(
-                          valueColor:
-                              AlwaysStoppedAnimation<Color>(primaryColor),
-                          strokeWidth: 3,
+                      SlideTransition(
+                        position: Tween<Offset>(
+                          begin: const Offset(0, 0.2),
+                          end: Offset.zero,
+                        ).animate(CurvedAnimation(
+                          parent: _loadingController,
+                          curve: Curves.easeOut,
+                        )),
+                        child: Text(
+                          'Order Your Food Easily',
+                          style:
+                              Theme.of(context).textTheme.bodyLarge?.copyWith(
+                                    color: Colors.grey[600],
+                                    letterSpacing: 0.5,
+                                  ),
                         ),
                       ),
                     ],
@@ -171,11 +216,9 @@ class _AuthWrapperState extends State<AuthWrapper>
         }
 
         if (auth.isAuthenticated) {
-          if (auth.role == Role.STUDENT) {
-            return const StudentLayout();
-          } else {
-            return AdminStandLayout();
-          }
+          return auth.role == Role.STUDENT
+              ? const StudentLayout()
+              : AdminStandLayout();
         }
         return const LoginScreen();
       },

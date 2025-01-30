@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/cupertino.dart';
 import 'package:school_canteen/models/register_response.dart';
 
@@ -31,6 +33,7 @@ class AuthProvider extends ChangeNotifier {
       if (loginResponse?.statusCode == 200) {
         await _getUserInfo();
         isAuthenticated = true;
+        role = loginResponse?.role;
         notifyListeners();
         return true;
       }
@@ -82,6 +85,7 @@ class AuthProvider extends ChangeNotifier {
 
   Future<bool> _getUserInfo() async {
     final response = await _authService.getUserInfo();
+    log(response.data?.username ?? "NO ROLEE");
     if (response.isSuccess && response.data != null) {
       user = response.data;
       role = response.data?.role;

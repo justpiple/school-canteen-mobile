@@ -151,16 +151,20 @@ class MenuCard extends StatelessWidget {
 
   void _showMenuDetails(BuildContext context) {
     showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      backgroundColor: Colors.transparent,
-      builder: (context) => DraggableScrollableSheet(
-        initialChildSize: 0.7,
-        maxChildSize: 0.9,
-        minChildSize: 0.5,
-        builder: (context, scrollController) =>
-            MenuDetailSheet(menu: menu, scrollController: scrollController),
-      ),
-    );
+        context: context,
+        isScrollControlled: true,
+        backgroundColor: Colors.transparent,
+        builder: (context) => GestureDetector(
+              behavior: HitTestBehavior.opaque,
+              onTap: () => Navigator.pop(context),
+              child: DraggableScrollableSheet(
+                initialChildSize: 0.7,
+                maxChildSize: 0.9,
+                minChildSize: 0.5,
+                expand: true,
+                builder: (context, scrollController) => MenuDetailSheet(
+                    menu: menu, scrollController: scrollController),
+              ),
+            ));
   }
 }

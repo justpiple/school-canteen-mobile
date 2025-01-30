@@ -43,7 +43,7 @@ class _StandCardState extends State<StandCard> {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Theme.of(context).primaryColor.withValues(alpha: 0.1),
+        color: Theme.of(context).primaryColor.withValues(alpha: .1),
         borderRadius: BorderRadius.vertical(
           top: const Radius.circular(16),
           bottom: _isExpanded ? Radius.zero : const Radius.circular(16),
@@ -136,25 +136,28 @@ class _StandCardState extends State<StandCard> {
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
-                    color: Theme.of(context).primaryColor,
+                    color: Colors.red[400],
                   ),
                 ),
               ),
               SizedBox(
-                height: 180,
+                height: 190,
                 child: ListView.builder(
                   scrollDirection: Axis.horizontal,
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   itemCount: endingSoonMenus.length,
                   itemBuilder: (context, index) => SizedBox(
-                    width: 280,
-                    child: EndingSoonMenuCard(menu: endingSoonMenus[index]),
+                    width: 260,
+                    child: Padding(
+                      padding: const EdgeInsets.only(bottom: 10),
+                      child: EndingSoonMenuCard(menu: endingSoonMenus[index]),
+                    ),
                   ),
                 ),
               ),
             ],
             ListView.builder(
-              padding: const EdgeInsets.all(16),
+              padding: const EdgeInsets.all(18),
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
               itemCount: menus.length,

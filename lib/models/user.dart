@@ -12,7 +12,7 @@ class User {
   });
 
   factory User.fromJson(Map<String, dynamic> json) {
-    String? roleStr = json['data']?['role'];
+    String? roleStr = json['role'];
     Role? role;
     if (roleStr != null) {
       role = Role.values.byName(roleStr);
