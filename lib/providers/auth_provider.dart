@@ -85,7 +85,6 @@ class AuthProvider extends ChangeNotifier {
 
   Future<bool> _getUserInfo() async {
     final response = await _authService.getUserInfo();
-    log(response.data?.username ?? "NO ROLEE");
     if (response.isSuccess && response.data != null) {
       user = response.data;
       role = response.data?.role;
