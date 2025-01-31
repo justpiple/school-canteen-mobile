@@ -9,12 +9,14 @@ class OrderDetailsSection extends StatelessWidget {
   final bool isLoading;
   final Function(BuildContext, int) onDownload;
   final NumberFormat currencyFormatter;
+  final bool isAdmin;
 
   const OrderDetailsSection({
     required this.order,
     required this.isLoading,
     required this.onDownload,
     required this.currencyFormatter,
+    required this.isAdmin,
     super.key,
   });
 
@@ -52,7 +54,7 @@ class OrderDetailsSection extends StatelessWidget {
           const SizedBox(height: 16),
           _buildOrderSummary(subtotal),
           const SizedBox(height: 20),
-          _buildDownloadButton(context),
+          if (!isAdmin) _buildDownloadButton(context),
         ],
       ),
     );

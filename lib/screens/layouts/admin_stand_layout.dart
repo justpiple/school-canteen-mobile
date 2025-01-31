@@ -98,7 +98,7 @@ class _AdminStandLayoutState extends State<AdminStandLayout> {
         final itemWidth = constraints.maxWidth / 5;
         return Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
-          spacing: 4,
+          spacing: 2,
           children: [
             SizedBox(
               width: itemWidth,

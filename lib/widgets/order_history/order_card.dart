@@ -357,6 +357,7 @@ class _OrderCardState extends State<OrderCard> {
               isLoading: widget.isLoading,
               onDownload: widget.onDownload,
               currencyFormatter: widget.currencyFormatter,
+              isAdmin: widget.isAdmin,
             ),
           ],
         ),
