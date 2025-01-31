@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 
-import '../student.dart';
+import 'student.dart';
 
 class ProfileControllers {
   final username = TextEditingController();

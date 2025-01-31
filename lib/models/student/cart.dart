@@ -1,4 +1,4 @@
-import 'menu.dart';
+import '../menu.dart';
 
 class CartItem {
   final Menu menu;

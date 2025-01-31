@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:school_canteen/models/login_response.dart';
 import 'package:school_canteen/providers/cart_provider.dart';
 import 'package:school_canteen/providers/profile_provider.dart';
 import 'package:school_canteen/screens/layouts/auth_wrapper.dart';
@@ -10,6 +11,8 @@ import 'package:school_canteen/utils/navigation_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'services/auth_service.dart';
 import 'services/student_service.dart';
+// ignore: library_prefixes
+import 'services/stand_admin/stand_service.dart' as StandServiceAdmin;
 import 'services/storage_service.dart';
 import 'providers/auth_provider.dart';
 
@@ -26,6 +29,7 @@ void main() async {
   final studentService = StudentService(dio);
   final orderService = OrderService(dio);
   final standService = StandService(dio);
+  final standServiceAdmin = StandServiceAdmin.StandService(dio);
 
   runApp(
     MultiProvider(
@@ -33,16 +37,39 @@ void main() async {
         ChangeNotifierProvider(
           create: (_) => AuthProvider(authService),
         ),
-        ChangeNotifierProvider(create: (_) => CartProvider(prefs)),
+        ChangeNotifierProxyProvider<AuthProvider, CartProvider?>(
+            create: (_) => null,
+            update: (_, authProvider, __) {
+              if (authProvider.role == Role.STUDENT) {
+                return CartProvider(prefs);
+              }
+              return null;
+            }),
         ChangeNotifierProvider(create: (_) => ProfileProvider(studentService)),
-        Provider<OrderService>(
-          create: (_) => orderService,
+        Provider<OrderService>(create: (_) => orderService),
+        ProxyProvider<AuthProvider, StandService?>(
+          update: (_, authProvider, __) {
+            if (authProvider.role == Role.STUDENT) {
+              return standService;
+            }
+            return null;
+          },
         ),
-        Provider<StandService>(
-          create: (_) => standService,
+        ProxyProvider<AuthProvider, StandServiceAdmin.StandService?>(
+          update: (_, authProvider, __) {
+            if (authProvider.role == Role.ADMIN_STAND) {
+              return standServiceAdmin;
+            }
+            return null;
+          },
         ),
-        Provider(
-          create: (_) => studentService,
+        ProxyProvider<AuthProvider, StudentService?>(
+          update: (_, authProvider, __) {
+            if (authProvider.role == Role.STUDENT) {
+              return studentService;
+            }
+            return null;
+          },
         ),
       ],
       child: const MyApp(),

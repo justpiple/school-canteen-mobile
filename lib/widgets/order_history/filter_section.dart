@@ -29,7 +29,7 @@ class FilterSection extends StatelessWidget {
         borderRadius: const BorderRadius.vertical(bottom: Radius.circular(16)),
         boxShadow: [
           BoxShadow(
-            color: Colors.grey.withOpacity(0.08),
+            color: Colors.grey.withValues(alpha: .08),
             blurRadius: 8,
             offset: const Offset(0, 4),
           ),

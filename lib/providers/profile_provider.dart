@@ -3,9 +3,9 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 
 import '../models/api_response.dart';
-import '../models/create_student.dart';
-import '../models/student.dart';
-import '../models/update_student.dart';
+import '../models/student/create_student.dart';
+import '../models/student/student.dart';
+import '../models/student/update_student.dart';
 import '../services/student_service.dart';
 
 class ProfileProvider extends ChangeNotifier {

@@ -1,3 +1,4 @@
+// ignore: constant_identifier_names
 enum Role { STUDENT, ADMIN_STAND }
 
 class LoginResponse {

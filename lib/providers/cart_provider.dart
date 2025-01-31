@@ -1,5 +1,5 @@
 import 'package:flutter/foundation.dart';
-import '../models/cart.dart';
+import '../models/student/cart.dart';
 import '../models/menu.dart';
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';

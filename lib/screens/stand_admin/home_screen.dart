@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../providers/stand_stats_provider.dart';
-import '../../services/stand_service.dart';
+import '../../services/stand_admin/stand_service.dart';
 import '../../widgets/stand_admin/stats.dart';
 
 class StandStatsPage extends StatelessWidget {

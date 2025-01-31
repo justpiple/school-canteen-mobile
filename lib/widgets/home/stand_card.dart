@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 
 import '../../models/api_response.dart';
 import '../../models/menu.dart';
-import '../../models/stand.dart';
+import '../../models/stand/stand.dart';
 import '../../services/stand_service.dart';
 import 'ending_soon_menu.dart';
 import 'menu_card.dart';

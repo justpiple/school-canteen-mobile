@@ -5,8 +5,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:provider/provider.dart';
 
-import '../../models/profile/profile_state.dart';
-import '../../models/update_student.dart';
+import '../../models/student/profile_state.dart';
+import '../../models/student/update_student.dart';
 import '../../models/update_user.dart';
 import '../../providers/auth_provider.dart';
 import '../../providers/profile_provider.dart';

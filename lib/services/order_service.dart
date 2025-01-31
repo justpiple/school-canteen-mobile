@@ -84,4 +84,29 @@ class OrderService {
       );
     }
   }
+
+  Future<ApiResponse> updateOrder(String orderId, String status) async {
+    try {
+      final response = await _dio.patch(
+        '/orders/$orderId',
+        data: {'status': status},
+      );
+
+      if (response.statusCode == 200) clearCache();
+
+      return ApiResponse.fromJson(
+        response.data,
+        null,
+      );
+    } on DioError catch (e) {
+      return ApiResponse.fromJson(
+        {
+          'status': 'error',
+          'message': e.response?.data['message'] ?? 'An error occurred',
+          'statusCode': e.response?.statusCode ?? 500,
+        },
+        null,
+      );
+    }
+  }
 }

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:intl/intl.dart';
-import '../../models/stand_stats.dart';
+import '../../models/stand/stand_stats.dart';
 
 class StandStatsComponents {
   static final currencyFormatter = NumberFormat.currency(
@@ -87,7 +87,7 @@ class StandStatsComponents {
         children: [
           Row(
             children: [
-              Icon(icon, color: color.withOpacity(0.8), size: 20),
+              Icon(icon, color: color.withValues(alpha: .8), size: 20),
               const SizedBox(width: 8),
               Expanded(
                 child: Text(
@@ -338,7 +338,7 @@ class StandStatsComponents {
                           width: 32,
                           height: 32,
                           decoration: BoxDecoration(
-                            color: Colors.blue.withOpacity(0.1),
+                            color: Colors.blue.withValues(alpha: .1),
                             borderRadius: BorderRadius.circular(8),
                           ),
                           child: Center(

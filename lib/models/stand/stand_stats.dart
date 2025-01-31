@@ -17,7 +17,8 @@ class StandStats {
     return StandStats(
       monthlyIncome: (json['monthlyIncome'] as List)
           .map((e) => MonthlyIncome.fromJson(e))
-          .toList(),
+          .toList()
+          .sublist(6, 12),
       totalOrders: json['totalOrders'],
       averageIncomePerOrder: json['averageIncomePerOrder'].toDouble(),
       totalItemsSold: json['totalItemsSold'],

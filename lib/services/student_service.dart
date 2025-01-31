@@ -1,9 +1,9 @@
 import 'package:dio/dio.dart';
 import 'dart:io';
-import '../models/create_student.dart';
-import '../models/student.dart';
+import '../models/student/create_student.dart';
+import '../models/student/student.dart';
 import '../models/api_response.dart';
-import '../models/update_student.dart';
+import '../models/student/update_student.dart';
 
 class StudentService {
   final Dio _dio;

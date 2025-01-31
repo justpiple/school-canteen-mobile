@@ -100,7 +100,10 @@ class OrderDetailsSection extends StatelessWidget {
                   valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
                 ),
               )
-            : const Icon(LucideIcons.download),
+            : const Icon(
+                LucideIcons.download,
+                color: Colors.white,
+              ),
         label: Text(
           isLoading ? 'Downloading...' : 'Download Receipt',
           style: const TextStyle(fontSize: 15),

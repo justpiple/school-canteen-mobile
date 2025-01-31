@@ -1,22 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:lucide_icons/lucide_icons.dart';
-import 'package:school_canteen/widgets/profile/profile_avatar.dart';
-
-import '../../models/student/profile_state.dart';
+import '../../models/stand/profile_state.dart';
 import '../common/animated_text_field.dart';
 
-class StudentProfileSection extends StatelessWidget {
-  final StudentProfileData data;
+class StandProfileSection extends StatelessWidget {
+  final StandProfileData data;
   final bool isEditing;
   final VoidCallback onSave;
-  final VoidCallback onImagePick;
 
-  const StudentProfileSection({
+  const StandProfileSection({
     super.key,
     required this.data,
     required this.isEditing,
     required this.onSave,
-    required this.onImagePick,
   });
 
   @override
@@ -31,10 +27,10 @@ class StudentProfileSection extends StatelessWidget {
           children: [
             Row(
               children: [
-                Icon(Icons.school, color: Theme.of(context).primaryColor),
+                Icon(Icons.store, color: Theme.of(context).primaryColor),
                 const SizedBox(width: 8),
                 Text(
-                  'Student Profile',
+                  'Stand Profile',
                   style: Theme.of(context).textTheme.titleLarge?.copyWith(
                         fontWeight: FontWeight.bold,
                       ),
@@ -42,38 +38,28 @@ class StudentProfileSection extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 24),
-            Center(
-              child: ProfileAvatar(
-                imageFile: data.imageFile,
-                photoUrl: data.student?.photo,
-                isEditing: isEditing,
-                onPick: onImagePick,
-              ),
-            ),
-            const SizedBox(height: 24),
             AnimatedTextField(
-              controller: data.nameController,
-              label: 'Full Name',
-              icon: Icons.badge,
+              controller: data.standNameController,
+              label: 'Stand Name',
+              icon: LucideIcons.store,
               enabled: isEditing,
               validator: (value) =>
-                  value?.isEmpty == true ? 'Please enter your name' : null,
+                  value?.isEmpty == true ? 'Please enter stand name' : null,
             ),
             const SizedBox(height: 16),
             AnimatedTextField(
-              controller: data.addressController,
-              label: 'Address',
-              icon: Icons.home,
+              controller: data.ownerNameController,
+              label: 'Owner Name',
+              icon: LucideIcons.contact,
               enabled: isEditing,
-              maxLines: 3,
               validator: (value) =>
-                  value?.isEmpty == true ? 'Please enter your address' : null,
+                  value?.isEmpty == true ? 'Please enter owner name' : null,
             ),
             const SizedBox(height: 16),
             AnimatedTextField(
               controller: data.phoneController,
               label: 'Phone',
-              icon: Icons.phone,
+              icon: LucideIcons.phone,
               enabled: isEditing,
               keyboardType: TextInputType.phone,
               validator: (value) => value?.isEmpty == true

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../models/api_response.dart';
 import '../../services/stand_service.dart';
-import '../../models/stand.dart';
+import '../../models/stand/stand.dart';
 import '../../widgets/common/error_display.dart';
 import '../../widgets/home/cart_floating_action_button.dart';
 import '../../widgets/home/stand_card.dart';

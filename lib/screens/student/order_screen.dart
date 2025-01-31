@@ -7,7 +7,10 @@ import 'dart:io';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:open_file/open_file.dart';
 import 'package:provider/provider.dart';
+import 'package:school_canteen/models/login_response.dart';
+import 'package:school_canteen/providers/auth_provider.dart';
 import 'package:universal_html/html.dart' as html;
+// ignore: depend_on_referenced_packages
 import 'package:path/path.dart' as path;
 
 import '../../models/order.dart';
@@ -28,6 +31,7 @@ class _OrderHistoryPageState extends State<OrderHistoryPage> {
   List<Order> _orders = [];
   int? _selectedMonth;
   int? _selectedYear;
+  bool _isAdmin = false;
   final Map<int, bool> _loadingOrders = {};
   final currentYear = DateTime.now().year;
   final ScrollController _scrollController = ScrollController();
@@ -42,6 +46,8 @@ class _OrderHistoryPageState extends State<OrderHistoryPage> {
       symbol: 'Rp ',
       decimalDigits: 0,
     );
+    _isAdmin = Provider.of<AuthProvider>(context, listen: false).role ==
+        Role.ADMIN_STAND;
     _loadOrders(useCache: true);
   }
 
@@ -328,6 +334,7 @@ class _OrderHistoryPageState extends State<OrderHistoryPage> {
                                 _loadingOrders[_orders[index].id] ?? false,
                             onDownload: _downloadReceipt,
                             currencyFormatter: _currencyFormatter,
+                            isAdmin: _isAdmin,
                           ),
                         ),
             ),
