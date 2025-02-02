@@ -232,6 +232,7 @@ class _StandProfilePageState extends State<StandProfilePage> {
           return RefreshIndicator(
             onRefresh: _loadProfileData,
             child: SingleChildScrollView(
+              physics: const AlwaysScrollableScrollPhysics(),
               padding: const EdgeInsets.all(16),
               child: Form(
                 key: _formKey,

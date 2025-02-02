@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:lucide_icons/lucide_icons.dart';
@@ -33,12 +35,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
       if (authProvider.loginResponse?.statusCode == 200) {
         _showSuccessAnimation();
-
-        Future.delayed(const Duration(seconds: 1), () {
-          if (dialogContext != null && mounted) {
-            Navigator.of(dialogContext!).pop();
-          }
-        });
       } else {
         _showError(authProvider.loginResponse?.message ?? 'Login failed.');
       }
@@ -55,7 +51,9 @@ class _LoginScreenState extends State<LoginScreen> {
         context: context,
         barrierDismissible: true,
         builder: (BuildContext context) {
-          dialogContext = context;
+          Timer(const Duration(seconds: 3), () {
+            Navigator.of(context).pop();
+          });
           return Center(
               child: Container(
             padding: const EdgeInsets.all(20),
@@ -150,7 +148,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       const SizedBox(height: 12),
                       Text(
-                        'Sign in to order your favorite meals',
+                        'Log in to order your favorite meals',
                         style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                               color: Colors.grey[600],
                             ),
@@ -284,7 +282,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               )
             : const Text(
-                'Sign In',
+                'Log In',
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
