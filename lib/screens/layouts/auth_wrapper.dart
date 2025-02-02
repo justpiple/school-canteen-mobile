@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:school_canteen/models/login_response.dart';
+import 'package:school_canteen/providers/profile_provider.dart';
 import 'package:school_canteen/screens/layouts/admin_stand_layout.dart';
+import 'package:school_canteen/services/stand_admin/stand_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:school_canteen/screens/layouts/student_layout.dart';
 import '../../providers/auth_provider.dart';
@@ -26,6 +28,7 @@ class _AuthWrapperState extends State<AuthWrapper>
   final String _lastVisitKey = 'last_visit_timestamp';
   final Duration _cacheValidity = const Duration(hours: 1);
   bool _isFirstLoad = true;
+  bool _isHaveProfile = true;
 
   @override
   void initState() {
@@ -92,7 +95,23 @@ class _AuthWrapperState extends State<AuthWrapper>
 
   Future<void> _checkAuth() async {
     final authProvider = Provider.of<AuthProvider>(context, listen: false);
+
     await authProvider.checkAuthStatus();
+
+    if (!mounted) return;
+    if (authProvider.role == Role.STUDENT) {
+      final profileProvider =
+          Provider.of<ProfileProvider>(context, listen: false);
+      await profileProvider.loadProfile();
+
+      final studentProfile = profileProvider.studentProfile;
+
+      if (studentProfile == null) _isHaveProfile = false;
+    } else {
+      final standProfile = await context.read<StandService>().getProfile();
+
+      if (standProfile.data == null) _isHaveProfile = false;
+    }
 
     if (_isFirstLoad) {
       await Future.delayed(const Duration(milliseconds: 1500));
@@ -217,8 +236,12 @@ class _AuthWrapperState extends State<AuthWrapper>
 
         if (auth.isAuthenticated) {
           return auth.role == Role.STUDENT
-              ? const StudentLayout()
-              : AdminStandLayout();
+              ? StudentLayout(
+                  isHaveProfile: _isHaveProfile,
+                )
+              : AdminStandLayout(
+                  isHaveProfile: _isHaveProfile,
+                );
         }
         return const LoginScreen();
       },

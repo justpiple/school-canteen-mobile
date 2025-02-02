@@ -5,7 +5,9 @@ import 'package:school_canteen/screens/student/profile_screen.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 
 class StudentLayout extends StatefulWidget {
-  const StudentLayout({super.key});
+  final bool isHaveProfile;
+
+  const StudentLayout({super.key, this.isHaveProfile = true});
 
   @override
   State<StudentLayout> createState() => _StudentLayoutState();
@@ -34,6 +36,22 @@ class _StudentLayoutState extends State<StudentLayout>
       duration: const Duration(milliseconds: 300),
       vsync: this,
     );
+
+    _selectedIndex = widget.isHaveProfile ? 0 : 2;
+
+    if (!widget.isHaveProfile) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text("Please complete your profile!"),
+            backgroundColor: Colors.red,
+            duration: Duration(days: 1),
+            behavior: SnackBarBehavior.floating,
+            showCloseIcon: true,
+          ),
+        );
+      });
+    }
   }
 
   @override

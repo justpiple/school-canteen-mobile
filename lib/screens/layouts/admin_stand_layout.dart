@@ -7,7 +7,9 @@ import 'package:school_canteen/screens/stand_admin/profile_screen.dart';
 import 'package:school_canteen/screens/student/order_screen.dart';
 
 class AdminStandLayout extends StatefulWidget {
-  const AdminStandLayout({super.key});
+  final bool isHaveProfile;
+
+  const AdminStandLayout({super.key, this.isHaveProfile = true});
 
   @override
   State<AdminStandLayout> createState() => _AdminStandLayoutState();
@@ -16,6 +18,26 @@ class AdminStandLayout extends StatefulWidget {
 class _AdminStandLayoutState extends State<AdminStandLayout> {
   int _selectedIndex = 0;
   bool _isMenuExpanded = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _selectedIndex = widget.isHaveProfile ? 0 : 2;
+
+    if (!widget.isHaveProfile) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text("Please complete your profile!"),
+            backgroundColor: Colors.red,
+            duration: Duration(days: 1),
+            behavior: SnackBarBehavior.floating,
+            showCloseIcon: true,
+          ),
+        );
+      });
+    }
+  }
 
   final List<Widget> _pages = const [
     StandStatsPage(),

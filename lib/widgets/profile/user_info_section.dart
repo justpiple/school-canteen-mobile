@@ -31,7 +31,7 @@ class UserInfoSection extends StatelessWidget {
           children: [
             Row(
               children: [
-                Icon(Icons.person_outline,
+                Icon(LucideIcons.userSquare,
                     color: Theme.of(context).primaryColor),
                 const SizedBox(width: 8),
                 Text(

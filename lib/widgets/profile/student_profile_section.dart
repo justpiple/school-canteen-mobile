@@ -54,7 +54,7 @@ class StudentProfileSection extends StatelessWidget {
             AnimatedTextField(
               controller: data.nameController,
               label: 'Full Name',
-              icon: Icons.badge,
+              icon: LucideIcons.userCheck,
               enabled: isEditing,
               validator: (value) =>
                   value?.isEmpty == true ? 'Please enter your name' : null,
@@ -63,7 +63,7 @@ class StudentProfileSection extends StatelessWidget {
             AnimatedTextField(
               controller: data.addressController,
               label: 'Address',
-              icon: Icons.home,
+              icon: LucideIcons.home,
               enabled: isEditing,
               maxLines: 3,
               validator: (value) =>
@@ -73,7 +73,7 @@ class StudentProfileSection extends StatelessWidget {
             AnimatedTextField(
               controller: data.phoneController,
               label: 'Phone',
-              icon: Icons.phone,
+              icon: LucideIcons.phone,
               enabled: isEditing,
               keyboardType: TextInputType.phone,
               validator: (value) => value?.isEmpty == true
