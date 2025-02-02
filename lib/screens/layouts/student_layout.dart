@@ -15,7 +15,7 @@ class StudentLayout extends StatefulWidget {
 
 class _StudentLayoutState extends State<StudentLayout>
     with TickerProviderStateMixin {
-  int _selectedIndex = 0;
+  int _selectedIndex = 2;
   late AnimationController _scaleController;
   late AnimationController _fadeController;
 

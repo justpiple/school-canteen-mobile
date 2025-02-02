@@ -16,7 +16,7 @@ class AdminStandLayout extends StatefulWidget {
 }
 
 class _AdminStandLayoutState extends State<AdminStandLayout> {
-  int _selectedIndex = 0;
+  int _selectedIndex = 2;
   bool _isMenuExpanded = false;
 
   @override

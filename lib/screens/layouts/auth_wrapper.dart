@@ -95,22 +95,23 @@ class _AuthWrapperState extends State<AuthWrapper>
 
   Future<void> _checkAuth() async {
     final authProvider = Provider.of<AuthProvider>(context, listen: false);
-
     await authProvider.checkAuthStatus();
 
-    if (!mounted) return;
-    if (authProvider.role == Role.STUDENT) {
-      final profileProvider =
-          Provider.of<ProfileProvider>(context, listen: false);
-      await profileProvider.loadProfile();
+    if (authProvider.isAuthenticated) {
+      if (!mounted) return;
+      if (authProvider.role == Role.STUDENT) {
+        final profileProvider =
+            Provider.of<ProfileProvider>(context, listen: false);
+        await profileProvider.loadProfile();
 
-      final studentProfile = profileProvider.studentProfile;
+        final studentProfile = profileProvider.studentProfile;
 
-      if (studentProfile == null) _isHaveProfile = false;
-    } else {
-      final standProfile = await context.read<StandService>().getProfile();
+        if (studentProfile == null) _isHaveProfile = false;
+      } else {
+        final standProfile = await context.read<StandService>().getProfile();
 
-      if (standProfile.data == null) _isHaveProfile = false;
+        if (standProfile.data == null) _isHaveProfile = false;
+      }
     }
 
     if (_isFirstLoad) {
