@@ -33,6 +33,9 @@ class Menu {
       'description': description,
       'photo': photo,
       'price': price,
+      'type': type,
+      'createdAt': createdAt.toIso8601String(),
+      'updatedAt': updatedAt.toIso8601String(),
       'discount': discount?.toJson(),
     };
   }

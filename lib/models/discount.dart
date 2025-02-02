@@ -28,6 +28,8 @@ class Discount {
 
   Map<String, dynamic> toJson() {
     return {
+      'id': id,
+      'standId': standId,
       'name': name,
       'percentage': percentage,
       'startDate': startDate.toIso8601String(),
