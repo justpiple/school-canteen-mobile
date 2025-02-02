@@ -72,15 +72,17 @@ class MenuDetailSheet extends StatelessWidget {
               fontWeight: FontWeight.bold,
             ),
           ),
-          const SizedBox(height: 12),
-          Text(
-            menu.description,
-            style: TextStyle(
-              fontSize: 16,
-              color: Colors.grey[600],
-              height: 1.5,
+          if (menu.description != null) ...[
+            const SizedBox(height: 12),
+            Text(
+              menu.description ?? '',
+              style: TextStyle(
+                fontSize: 16,
+                color: Colors.grey[600],
+                height: 1.5,
+              ),
             ),
-          ),
+          ],
           if (hasDiscount) ...[
             const SizedBox(height: 20),
             Container(

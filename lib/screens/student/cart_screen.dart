@@ -42,12 +42,12 @@ class _CartPageState extends State<CartPage> {
         Provider.of<CartProvider>(context, listen: false).clearCart();
         if (!mounted) return;
 
+        Navigator.pop(context);
         showMessageDialog(
           context,
           'Success',
           'Your order has been placed successfully',
         );
-        Navigator.pop(context);
       } else {
         showMessageDialog(
           context,

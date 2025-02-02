@@ -56,16 +56,18 @@ class MenuCard extends StatelessWidget {
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                         ),
-                        const SizedBox(height: 4),
-                        Text(
-                          menu.description,
-                          style: TextStyle(
-                            fontSize: 14,
-                            color: Colors.grey[600],
+                        if (menu.description != null) ...[
+                          const SizedBox(height: 4),
+                          Text(
+                            menu.description ?? '',
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Colors.grey[600],
+                            ),
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
                           ),
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                        ),
+                        ],
                       ],
                     ),
                   ),

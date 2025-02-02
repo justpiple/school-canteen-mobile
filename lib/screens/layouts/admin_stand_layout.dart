@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:lucide_icons/lucide_icons.dart';
+import 'package:school_canteen/screens/stand_admin/discount_screen.dart';
 import 'package:school_canteen/screens/stand_admin/home_screen.dart';
+import 'package:school_canteen/screens/stand_admin/menu_screen.dart';
 import 'package:school_canteen/screens/stand_admin/profile_screen.dart';
 import 'package:school_canteen/screens/student/order_screen.dart';
 
@@ -19,8 +21,8 @@ class _AdminStandLayoutState extends State<AdminStandLayout> {
     StandStatsPage(),
     OrderHistoryPage(),
     StandProfilePage(),
-    StandStatsPage(),
-    StandStatsPage(),
+    ManageMenuPage(),
+    ManageDiscountPage(),
   ];
 
   void _onItemTapped(int index) {
@@ -134,7 +136,7 @@ class _AdminStandLayoutState extends State<AdminStandLayout> {
                 child: _buildAdditionalMenuItem(
                   icon: LucideIcons.utensils,
                   label: 'Manage Menu',
-                  onTap: () => _onItemTapped(2),
+                  onTap: () => _onItemTapped(3),
                   isSelected: _selectedIndex == 3,
                 ),
               ),
@@ -143,7 +145,7 @@ class _AdminStandLayoutState extends State<AdminStandLayout> {
                 child: _buildAdditionalMenuItem(
                   icon: LucideIcons.ticket,
                   label: 'Manage Discounts',
-                  onTap: () => _onItemTapped(3),
+                  onTap: () => _onItemTapped(4),
                   isSelected: _selectedIndex == 4,
                 ),
               ),

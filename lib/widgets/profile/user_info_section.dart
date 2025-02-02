@@ -46,7 +46,7 @@ class UserInfoSection extends StatelessWidget {
             AnimatedTextField(
               controller: usernameController,
               label: 'Username',
-              icon: Icons.account_circle,
+              icon: LucideIcons.userCircle,
               enabled: isEditing,
               validator: (value) =>
                   value?.isEmpty == true ? 'Please enter username' : null,
@@ -56,7 +56,7 @@ class UserInfoSection extends StatelessWidget {
               AnimatedTextField(
                 controller: passwordController,
                 label: 'New Password (optional)',
-                icon: Icons.key,
+                icon: LucideIcons.key,
                 isPassword: true,
                 enabled: true,
               ),

@@ -91,7 +91,7 @@ class StandStatsView extends StatelessWidget {
           final stats = provider.stats!;
 
           return RefreshIndicator(
-            onRefresh: provider.loadStats,
+            onRefresh: () => provider.loadStats(forceRefresh: true),
             child: SingleChildScrollView(
               physics: const AlwaysScrollableScrollPhysics(),
               padding: const EdgeInsets.all(16),

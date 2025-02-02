@@ -5,6 +5,8 @@ import 'package:school_canteen/providers/cart_provider.dart';
 import 'package:school_canteen/providers/profile_provider.dart';
 import 'package:school_canteen/screens/layouts/auth_wrapper.dart';
 import 'package:school_canteen/services/dio_instance.dart';
+import 'package:school_canteen/services/discount_service.dart';
+import 'package:school_canteen/services/menu_service.dart';
 import 'package:school_canteen/services/order_service.dart';
 import 'package:school_canteen/services/stand_service.dart';
 import 'package:school_canteen/utils/navigation_service.dart';
@@ -30,6 +32,8 @@ void main() async {
   final orderService = OrderService(dio);
   final standService = StandService(dio);
   final standServiceAdmin = StandServiceAdmin.StandService(dio);
+  final menuService = MenuService(dio);
+  final discountService = DiscountService(dio);
 
   runApp(
     MultiProvider(
@@ -67,6 +71,22 @@ void main() async {
           update: (_, authProvider, __) {
             if (authProvider.role == Role.STUDENT) {
               return studentService;
+            }
+            return null;
+          },
+        ),
+        ProxyProvider<AuthProvider, MenuService?>(
+          update: (_, authProvider, __) {
+            if (authProvider.role == Role.ADMIN_STAND) {
+              return menuService;
+            }
+            return null;
+          },
+        ),
+        ProxyProvider<AuthProvider, DiscountService?>(
+          update: (_, authProvider, __) {
+            if (authProvider.role == Role.ADMIN_STAND) {
+              return discountService;
             }
             return null;
           },

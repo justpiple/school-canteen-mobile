@@ -113,7 +113,7 @@ class _OrderHistoryPageState extends State<OrderHistoryPage> {
       _selectedMonth = null;
       _selectedYear = currentYear;
     });
-    _loadOrders();
+    _loadOrders(forceRefresh: true);
   }
 
   Future<void> _handleWebDownload(int orderId, BuildContext context) async {
@@ -308,11 +308,11 @@ class _OrderHistoryPageState extends State<OrderHistoryPage> {
             selectedYear: _selectedYear,
             onMonthChanged: (value) {
               setState(() => _selectedMonth = value);
-              _loadOrders();
+              _loadOrders(forceRefresh: true);
             },
             onYearChanged: (value) {
               setState(() => _selectedYear = value);
-              _loadOrders();
+              _loadOrders(forceRefresh: true);
             },
             onClearFilters: _clearFilters,
             currentYear: currentYear,
