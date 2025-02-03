@@ -106,7 +106,7 @@ class _AuthWrapperState extends State<AuthWrapper>
 
         final studentProfile = profileProvider.studentProfile;
 
-        if (studentProfile == null) _isHaveProfile = false;
+        if (studentProfile?.data == null) _isHaveProfile = false;
       } else {
         final standProfile = await context.read<StandService>().getProfile();
 
