@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import '../../../models/order.dart';
 import '../../services/order_service.dart';
+import '../../utils/snackbar.dart';
 import 'order_details_section.dart';
 
 class OrderCard extends StatefulWidget {
@@ -165,41 +166,13 @@ class _OrderCardState extends State<OrderCard> {
   }
 
   void _showSuccessSnackBar() {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text('Order #${widget.order.id} status updated successfully'),
-        backgroundColor: Colors.green,
-        behavior: SnackBarBehavior.floating,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
-        ),
-        action: SnackBarAction(
-          label: 'OK',
-          textColor: Colors.white,
-          onPressed: () {},
-        ),
-      ),
-    );
+    showSnackBar(context, "Success",
+        'Order #${widget.order.id} status updated successfully');
   }
 
   void _showErrorSnackBar(String error) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content:
-            // ignore: dead_null_aware_expression
-            Text(error ?? 'Failed to update Order #${widget.order.id} status'),
-        backgroundColor: Colors.red,
-        behavior: SnackBarBehavior.floating,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
-        ),
-        action: SnackBarAction(
-          label: 'OK',
-          textColor: Colors.white,
-          onPressed: () {},
-        ),
-      ),
-    );
+    showSnackBar(
+        context, "Error", 'Failed to update Order #${widget.order.id} status');
   }
 
   Widget _buildAdminActions(BuildContext context) {

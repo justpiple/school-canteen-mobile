@@ -8,6 +8,7 @@ import '../../models/stand/create_stand.dart';
 import '../../models/update_user.dart';
 import '../../providers/auth_provider.dart';
 import '../../services/stand_admin/stand_service.dart';
+import '../../utils/snackbar.dart';
 import '../../widgets/profile/stand_profile_section.dart';
 import '../../widgets/profile/user_info_section.dart';
 
@@ -195,9 +196,8 @@ class _StandProfilePageState extends State<StandProfilePage> {
     } catch (e) {
       if (!mounted) return;
       _profileState.setLoading(false);
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Failed to update user info: ${e.toString()}')),
-      );
+      showSnackBar(
+          context, "Error", 'Failed to update user info: ${e.toString()}');
     }
   }
 

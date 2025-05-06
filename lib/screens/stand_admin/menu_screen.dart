@@ -5,6 +5,7 @@ import 'package:lucide_icons/lucide_icons.dart';
 
 import '../../services/menu_service.dart';
 import '../../models/menu.dart';
+import '../../utils/snackbar.dart';
 import 'menu_form_screen.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
@@ -345,13 +346,7 @@ class _ManageMenuPageState extends State<ManageMenuPage> {
   }
 
   void _showSnackbar(String message, {bool isSuccess = true}) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(message),
-        backgroundColor: isSuccess ? Colors.green : Colors.red,
-        duration: const Duration(seconds: 2),
-      ),
-    );
+    showSnackBar(context, isSuccess ? "Success" : "Error", message);
   }
 
   @override

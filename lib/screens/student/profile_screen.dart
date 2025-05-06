@@ -10,6 +10,7 @@ import '../../models/student/update_student.dart';
 import '../../models/update_user.dart';
 import '../../providers/auth_provider.dart';
 import '../../providers/profile_provider.dart';
+import '../../utils/message_dialog.dart';
 import '../../widgets/profile/student_profile_section.dart';
 import '../../widgets/profile/user_info_section.dart';
 
@@ -94,14 +95,19 @@ class _ProfilePageState extends State<ProfilePage> {
       _toggleEdit();
       _controllers.password.clear();
 
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('User info updated successfully')),
+      showMessageDialog(
+        context,
+        'Success',
+        'User info updated successfully',
       );
     } catch (e) {
       if (!mounted) return;
       _profileState.setLoading(false);
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Failed to update user info: ${e.toString()}')),
+
+      showMessageDialog(
+        context,
+        'Error',
+        'Failed to update user info: ${e.toString()}',
       );
     }
   }
@@ -185,19 +191,29 @@ class _ProfilePageState extends State<ProfilePage> {
       if (success.indexOf("successful") > 0) {
         profileProvider.clearCache();
         _toggleEdit();
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Profile saved successfully')),
+
+        showMessageDialog(
+          context,
+          'Success',
+          _profileState.exists
+              ? 'Profile updated successfully'
+              : 'Profile created successfully',
         );
       } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(success)),
+        showMessageDialog(
+          context,
+          'Error',
+          success,
         );
       }
     } catch (e) {
       if (!mounted) return;
       _profileState.setLoading(false);
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error saving profile: ${e.toString()}')),
+
+      showMessageDialog(
+        context,
+        'Error',
+        'Failed to save profile: ${e.toString()}',
       );
     }
   }

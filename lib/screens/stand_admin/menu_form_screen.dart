@@ -4,6 +4,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 
+import '../../utils/snackbar.dart';
 import '../../widgets/common/animated_text_field.dart';
 import '../../services/menu_service.dart';
 import '../../models/menu.dart';
@@ -368,13 +369,7 @@ class _MenuFormPageState extends State<MenuFormPage> {
   }
 
   void _showSnackbar(String message, {bool isSuccess = true}) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(message),
-        backgroundColor: isSuccess ? Colors.green : Colors.red,
-        duration: const Duration(seconds: 2),
-      ),
-    );
+    showSnackBar(context, isSuccess ? "Success" : "Error", message);
   }
 
   @override

@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:school_canteen/screens/register_screen.dart';
 import '../providers/auth_provider.dart';
+import '../utils/snackbar.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -48,53 +49,49 @@ class _LoginScreenState extends State<LoginScreen> {
 
   void _showSuccessAnimation() {
     showDialog(
-        context: context,
-        barrierDismissible: true,
-        builder: (BuildContext context) {
-          Timer(const Duration(seconds: 3), () {
-            Navigator.of(context).pop();
-          });
-          return Center(
-              child: Container(
-            padding: const EdgeInsets.all(20),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(20),
+      context: context,
+      barrierDismissible: true,
+      builder: (BuildContext context) {
+        Timer(const Duration(seconds: 3), () {
+          Navigator.of(context).pop();
+        });
+        return Dialog(
+          insetPadding: const EdgeInsets.symmetric(horizontal: 40.0),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15.0),
+          ),
+          child: Container(
+            constraints: const BoxConstraints(maxWidth: 280.0),
+            padding: const EdgeInsets.symmetric(
+              horizontal: 24.0,
+              vertical: 20.0,
             ),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
                 const Icon(
-                  Icons.check_circle,
+                  LucideIcons.checkCircle,
                   color: Colors.green,
-                  size: 64,
+                  size: 48,
                 ),
-                const SizedBox(height: 16),
+                const SizedBox(height: 12),
                 const Text(
                   'Login Successful!',
                   style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
+                    fontSize: 18,
+                    fontWeight: FontWeight.w600,
                   ),
                 ),
               ],
             ),
-          ));
-        });
+          ),
+        );
+      },
+    );
   }
 
   void _showError(String message) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(message),
-        backgroundColor: Colors.red,
-        behavior: SnackBarBehavior.floating,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10),
-        ),
-        margin: const EdgeInsets.all(16),
-      ),
-    );
+    showSnackBar(context, "Error", message);
   }
 
   @override
